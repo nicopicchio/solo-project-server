@@ -1,8 +1,11 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 const secretKey = process.env.SECRET_KEY;
+const saltRounds = 10;
+const startingBalance = 0;
 const errors = {
 	server: {
 		code: 500,
@@ -13,9 +16,6 @@ const errors = {
 		message: 'Invalid username or password',
 	},
 };
-
-const saltRounds = 10;
-const startingBalance = 0;
 
 export const register = async (req, res) => {
 	try {
