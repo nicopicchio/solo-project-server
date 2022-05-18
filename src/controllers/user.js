@@ -13,26 +13,38 @@ const errors = {
 	},
 	access: {
 		code: 401,
-		message: 'Invalid username or password',
+		message: 'Invalid username and/or password',
 	},
+	validation: {
+		code: 400,
+		message: 'Bad HTTP request'
+	}
 };
 
 export const register = async (req, res) => {
-	try {
-		const registeredUser = await prisma.user.create({
-			data: {
-				username: req.body.username,
-				forename: req.body.forename,
-				surname: req.body.surname,
-				password: await bcrypt.hash(req.body.password, saltRounds),
-				balance: startingBalance,
-			},
-		});
-		res.status(200).json({ registeredUser });
-	} catch (err) {
-		console.error(err);
-		res.status(errors.server.code).json(errors.server.message);
+	if (
+		!req.body.forename ||
+		!req.body.surname ||
+		!req.body.username ||
+		!req.body.password
+	) {
+		return res.status(errors.validation.code).json(errors.validation.message)
 	}
+		try {
+			const registeredUser = await prisma.user.create({
+				data: {
+					username: req.body.username,
+					forename: req.body.forename,
+					surname: req.body.surname,
+					password: await bcrypt.hash(req.body.password, saltRounds),
+					balance: startingBalance,
+				},
+			});
+			res.status(200).json({ registeredUser });
+		} catch (err) {
+			console.error(err);
+			res.status(errors.server.code).json(errors.server.message);
+		}
 };
 
 export const login = async (req, res) => {
