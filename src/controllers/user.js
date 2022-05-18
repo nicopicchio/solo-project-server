@@ -13,11 +13,11 @@ const errors = {
 	},
 	access: {
 		code: 401,
-		message: 'Invalid username and/or password',
+		message: 'Invalid username and/or password!',
 	},
 	validation: {
 		code: 400,
-		message: 'Bad HTTP request'
+		message: 'Bad HTTP request!'
 	}
 };
 
@@ -56,9 +56,7 @@ export const login = async (req, res) => {
 		matchingUser.password
 	);
 	if (matchingUser && matchingPassword) {
-		res
-			.status(200)
-			.json(jwt.sign({ username: matchingUser.username }, secretKey));
+		res.status(200).json(jwt.sign({ username: matchingUser.username }, secretKey));
 		return;
 	}
 	res.status(errors.access.code).json(errors.access.message);
