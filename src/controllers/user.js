@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import axios from 'axios';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -17,8 +18,8 @@ const errors = {
 	},
 	validation: {
 		code: 400,
-		message: 'Bad HTTP request!'
-	}
+		message: 'Bad HTTP request!',
+	},
 };
 
 export const register = async (req, res) => {
@@ -28,23 +29,23 @@ export const register = async (req, res) => {
 		!req.body.username ||
 		!req.body.password
 	) {
-		return res.status(errors.validation.code).json(errors.validation.message)
+		return res.status(errors.validation.code).json(errors.validation.message);
 	}
-		try {
-			const registeredUser = await prisma.user.create({
-				data: {
-					username: req.body.username,
-					forename: req.body.forename,
-					surname: req.body.surname,
-					password: await bcrypt.hash(req.body.password, saltRounds),
-					balance: startingBalance,
-				},
-			});
-			res.status(200).json({ registeredUser });
-		} catch (err) {
-			console.error(err);
-			res.status(errors.server.code).json(errors.server.message);
-		}
+	try {
+		const registeredUser = await prisma.user.create({
+			data: {
+				username: req.body.username,
+				forename: req.body.forename,
+				surname: req.body.surname,
+				password: await bcrypt.hash(req.body.password, saltRounds),
+				balance: startingBalance,
+			},
+		});
+		res.status(200).json({ registeredUser });
+	} catch (err) {
+		console.error(err);
+		res.status(errors.server.code).json(errors.server.message);
+	}
 };
 
 export const login = async (req, res) => {
@@ -56,7 +57,8 @@ export const login = async (req, res) => {
 		matchingUser.password
 	);
 	if (matchingUser && matchingPassword) {
-		res.status(200).json(jwt.sign({ username: matchingUser.username }, secretKey));
+		const token = jwt.sign(matchingUser.username, secretKey);
+		res.status(200).json(token);
 		return;
 	}
 	res.status(errors.access.code).json(errors.access.message);
