@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/user', userRouter);
-app.use('/dashboard', getAllFugitives);
+app.use('/fugitives', getAllFugitives);
 
 app.get('*', (req, res) => {
 	res.status(404).json({ error: 'Page not found' });
