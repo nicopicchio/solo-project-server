@@ -57,7 +57,7 @@ export const login = async (req, res) => {
 	);
 	if (matchingUser && matchingPassword) {
 		const token = jwt.sign(matchingUser.username, secretKey);
-		res.status(200).json(token);
+		res.status(200).json([token, matchingUser]);
 		return;
 	}
 	res.status(errors.access.code).json(errors.access.message);
