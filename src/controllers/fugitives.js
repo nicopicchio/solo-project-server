@@ -1,16 +1,17 @@
 import axios from 'axios';
 
-const FBI_URL = 'https://api.fbi.gov/@wanted?pageSize=100';
+const FBI_URL = 'https://api.fbi.gov/@wanted?pageSize=200';
 
 export const getAllFugitives = async (req, res) => {
 	try {
 		const response = await axios.get(FBI_URL);
 		const fugitivesArray = response.data.items;
-		const filteredFugitives = fugitivesArray.filter(
-			(fugitive) =>
-				fugitive.person_classification === 'Main' ||
-				fugitive.reward_text !== null
-		);
+		const filteredFugitives = fugitivesArray.filter((fugitive) => {
+			if (fugitive.person_classification === 'Main' &&	fugitive.reward_text !== null && fugitive.status !== 'captured' && fugitive.status !== 'recovered') {
+				return fugitive
+			}
+			return
+		});
 		const mappedFugitives = filteredFugitives.map((fugitive) => {
 			const fugitiveObject = {
 				name: fugitive.title,
