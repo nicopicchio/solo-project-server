@@ -17,7 +17,7 @@ export const getAllFugitives = async (req, res) => {
 			// check if the fugitive id is in the list of targets
 			const fugitiveObject = {
 				name: fugitive.title,
-				id: fugitive.uid,
+				uid: fugitive.uid,
 				url: fugitive.url,
 				warning: fugitive.warning_message,
 				images: fugitive.images,
