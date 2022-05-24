@@ -4,6 +4,7 @@ const FBI_URL = 'https://api.fbi.gov/@wanted?pageSize=200';
 
 export const getAllFugitives = async (req, res) => {
 	try {
+		// Get all targets for the user
 		const response = await axios.get(FBI_URL);
 		const fugitivesArray = response.data.items;
 		const filteredFugitives = fugitivesArray.filter((fugitive) => {
@@ -13,6 +14,7 @@ export const getAllFugitives = async (req, res) => {
 			return
 		});
 		const mappedFugitives = filteredFugitives.map((fugitive) => {
+			// check if the fugitive id is in the list of targets
 			const fugitiveObject = {
 				name: fugitive.title,
 				nationality: fugitive.nationality,
