@@ -17,19 +17,20 @@ const errors = {
 };
 
 export const getAcceptedJobs = async (req, res) => {
-  
-}
+	const acceptedJobs = await prisma.job.findMany();
+	res.status(200).json({ acceptedJobs });
+};
 
 export const addNewJob = async (req, res) => {
 	try {
 		const jobAdded = await prisma.job.create({
 			data: {
 				uid: req.body.uid,
-        user: {
-          connect: {
-            id: req.user.id
-          }
-        }
+				user: {
+					connect: {
+						id: req.user.id,
+					},
+				},
 			},
 		});
 		res.status(200).json({ jobAdded });
