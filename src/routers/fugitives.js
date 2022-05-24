@@ -1,8 +1,8 @@
 import express from 'express';
-import { getAllFugitives } from '../controllers/fugitives';
+import { getAllFugitives } from '../controllers/fugitives.js';
 
-const router = express.Router();
+const fugitivesRouter = express.Router();
 
-router.get('/', getAllFugitives)
+fugitivesRouter.get('/', getAllFugitives)
 
-export default router;
+export default fugitivesRouter;

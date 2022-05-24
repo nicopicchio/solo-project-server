@@ -17,17 +17,12 @@ export const getAllFugitives = async (req, res) => {
 			// check if the fugitive id is in the list of targets
 			const fugitiveObject = {
 				name: fugitive.title,
-				nationality: fugitive.nationality,
 				id: fugitive.uid,
 				url: fugitive.url,
 				warning: fugitive.warning_message,
 				images: fugitive.images,
-				files: fugitive.files,
 				reward: fugitive.reward_text,
 				rewardAmount: fugitive.reward_text.match(/\$((?:\d|\,)*\.?\d+)/g),
-				caution: fugitive.caution,
-				remarks: fugitive.remarks,
-				status: fugitive.status,
 			};
 			return fugitiveObject;
 		});
