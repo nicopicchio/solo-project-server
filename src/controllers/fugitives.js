@@ -22,7 +22,7 @@ export const getAllFugitives = async (req, res) => {
 				images: fugitive.images,
 				files: fugitive.files,
 				reward: fugitive.reward_text,
-				rewardAmount: fugitive.reward_text.replace(/\D/g, ''),
+				rewardAmount: fugitive.reward_text.match(/\$((?:\d|\,)*\.?\d+)/g),
 				caution: fugitive.caution,
 				remarks: fugitive.remarks,
 				status: fugitive.status,
