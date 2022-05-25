@@ -2,7 +2,7 @@ import axios from 'axios';
 import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient();
 
-const FBI_URL = 'https://api.fbi.gov/@wanted?pageSize=100';
+const FBI_URL = 'https://api.fbi.gov/@wanted?pageSize=200';
 
 export const getAllFugitives = async (req, res) => {
 	try {
@@ -14,7 +14,7 @@ export const getAllFugitives = async (req, res) => {
 		const response = await axios.get(FBI_URL);
 		const fugitivesArray = response.data.items;
 		const filteredFugitives = fugitivesArray.filter((fugitive) => {
-			if (fugitive.person_classification === 'Main' &&	fugitive.reward_text !== null && fugitive.status !== 'captured' && fugitive.status !== 'recovered') {
+			if (fugitive.reward_text !== null && fugitive.status !== 'captured' && fugitive.status !== 'recovered') {
 				return fugitive
 			}
 			return

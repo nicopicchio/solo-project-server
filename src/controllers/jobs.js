@@ -36,7 +36,6 @@ export const addNewJob = async (req, res) => {
 };
 
 export const markAsCompleted = async (req, res) => {
-	console.log(req)
 	try {
 		const jobCompleted = await prisma.job.update({
 			where: {
