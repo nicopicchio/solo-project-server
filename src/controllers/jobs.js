@@ -34,3 +34,21 @@ export const addNewJob = async (req, res) => {
 		res.status(errors.server.code).json(errors.server.message);
 	}
 };
+
+export const markAsCompleted = async (req, res) => {
+	console.log(req)
+	try {
+		const jobCompleted = await prisma.job.update({
+			where: {
+				uid: req.body.uid,
+			},
+			data: {
+				completed: true,
+			},
+		});
+		res.status(200).json({ jobCompleted });
+	} catch (err) {
+		console.error(err);
+		res.status(errors.server.code).json(errors.server.message);
+	}
+};
