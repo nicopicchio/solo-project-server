@@ -17,7 +17,11 @@ const errors = {
 };
 
 export const getAcceptedJobs = async (req, res) => {
-	const acceptedJobs = await prisma.job.findMany();
+	const acceptedJobs = await prisma.job.findMany({
+		where: {
+			userId: req.user.id
+		}
+	});
 	res.status(200).json({ acceptedJobs });
 };
 
