@@ -1,10 +1,16 @@
 import axios from 'axios';
+import { PrismaClient } from "@prisma/client"
+const prisma = new PrismaClient();
 
-const FBI_URL = 'https://api.fbi.gov/@wanted?pageSize=200';
+const FBI_URL = 'https://api.fbi.gov/@wanted?pageSize=100';
 
 export const getAllFugitives = async (req, res) => {
 	try {
-		// Get all targets for the user
+		const acceptedJobs = await prisma.job.findMany({
+			where: {
+				userId: req.user.id
+			}
+		});
 		const response = await axios.get(FBI_URL);
 		const fugitivesArray = response.data.items;
 		const filteredFugitives = fugitivesArray.filter((fugitive) => {
@@ -14,7 +20,7 @@ export const getAllFugitives = async (req, res) => {
 			return
 		});
 		const mappedFugitives = filteredFugitives.map((fugitive) => {
-			// check if the fugitive id is in the list of targets
+			const job = acceptedJobs.find(job => job.uid === fugitive.uid)
 			const fugitiveObject = {
 				name: fugitive.title,
 				uid: fugitive.uid,
@@ -23,6 +29,7 @@ export const getAllFugitives = async (req, res) => {
 				images: fugitive.images,
 				reward: fugitive.reward_text,
 				rewardAmount: fugitive.reward_text.match(/\$((?:\d|\,)*\.?\d+)/g),
+				job: job
 			};
 			return fugitiveObject;
 		});
