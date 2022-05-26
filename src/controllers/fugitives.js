@@ -21,6 +21,8 @@ export const getAllFugitives = async (req, res) => {
 		});
 		const mappedFugitives = filteredFugitives.map((fugitive) => {
 			const job = acceptedJobs.find(job => job.uid === fugitive.uid)
+			const rewardAmount = fugitive.reward_text.match(/\$((?:\d|\,)*\.?\d+)/g)
+			const balance = rewardAmount[0].replaceAll('$', '').replaceAll(',', '')
 			const fugitiveObject = {
 				name: fugitive.title,
 				uid: fugitive.uid,
@@ -28,7 +30,8 @@ export const getAllFugitives = async (req, res) => {
 				warning: fugitive.warning_message,
 				images: fugitive.images,
 				reward: fugitive.reward_text,
-				rewardAmount: fugitive.reward_text.match(/\$((?:\d|\,)*\.?\d+)/g),
+				rewardAmount: rewardAmount,
+				balance: +balance,
 				job: job
 			};
 			return fugitiveObject;
