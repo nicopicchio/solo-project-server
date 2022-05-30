@@ -17,5 +17,5 @@ app.use('/fugitives', fugitivesRouter);
 app.use('/jobs', jobsRouter);
 
 app.listen(port, () => {
-  console.log(`\nServer running on port ${port}\n`)
-});
+  console.log(`Server is running on http://localhost:${port}/`)
+ })
