@@ -20,6 +20,4 @@ app.get('*', (req, res) => {
 	res.status(404).json({ error: 'Page not found' });
 });
 
-app.listen(port || 4000, () => {
-	console.log(`\n Server running on http://localhost:${port}\n`);
-});
+app.listen(port || 4000);
