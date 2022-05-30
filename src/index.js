@@ -16,4 +16,6 @@ app.use('/user', userRouter);
 app.use('/fugitives', fugitivesRouter);
 app.use('/jobs', jobsRouter);
 
-app.listen(port || 4000);
+app.listen(port, () => {
+  console.log(`\nServer running on port ${port}\n`)
+});
