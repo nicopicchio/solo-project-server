@@ -16,8 +16,8 @@ app.use('/user', userRouter);
 app.use('/fugitives', fugitivesRouter);
 app.use('/jobs', jobsRouter);
 
-app.get('*', (req, res) => {
-	res.status(404).json({ error: 'Page not found' });
-});
+// app.get('*', (req, res) => {
+// 	res.status(404).json({ error: 'Page not found' });
+// });
 
 app.listen(port || 4000);
